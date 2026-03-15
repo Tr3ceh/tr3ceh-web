@@ -1,0 +1,185 @@
+<footer class="relative mt-24 overflow-hidden border-t border-white/10">
+  <!-- Glow superior -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent"
+  >
+  </div>
+
+  <!-- Fondo técnico sutil -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 opacity-[0.06]"
+    style="
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-position: center;
+    "
+  >
+  </div>
+
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.12),transparent_30%)]"
+  >
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-16">
+    <div class="grid gap-12 md:grid-cols-[1.3fr_0.8fr_0.9fr]">
+      <!-- Marca -->
+      <div>
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-sm font-semibold tracking-[0.2em] text-cyan-300 shadow-[0_0_30px_rgba(34,211,238,0.08)]"
+          >
+            T
+          </div>
+
+          <div>
+            <p
+              class="text-sm font-semibold uppercase tracking-[0.28em] text-white"
+            >
+              TR3CEH
+            </p>
+            <p class="text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+              Offensive Security
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-5 max-w-md text-sm leading-7 text-zinc-400">
+          Servicios de pentesting, análisis de superficie de ataque y evaluación
+          técnica de seguridad con un enfoque estructurado, profesional y
+          orientado a resultados.
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <span
+            class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-zinc-400"
+          >
+            Pentesting
+          </span>
+          <span
+            class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-zinc-400"
+          >
+            Security Review
+          </span>
+          <span
+            class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-zinc-400"
+          >
+            Technical Reporting
+          </span>
+        </div>
+      </div>
+
+      <!-- Navegación -->
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.24em] text-cyan-400">
+          Navegación
+        </p>
+
+        <ul class="mt-5 space-y-3 text-sm text-zinc-400">
+          <li>
+            <a href="#servicios" class="footer-link"> Servicios </a>
+          </li>
+          <li>
+            <a href="#metodologia" class="footer-link"> Metodología </a>
+          </li>
+          <li>
+            <a href="#sobre-mi" class="footer-link"> Sobre mí </a>
+          </li>
+          <li>
+            <a href="#contacto" class="footer-link"> Contacto </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contacto -->
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.24em] text-cyan-400">
+          Contacto
+        </p>
+
+        <ul class="mt-5 space-y-3 text-sm text-zinc-400">
+          <li>
+            <a href="mailto:tr3ceh@proton.me" class="footer-link break-all">
+              tr3ceh@proton.me
+            </a>
+          </li>
+          <li>
+            <a href="#" class="footer-link"> LinkedIn </a>
+          </li>
+          <li>
+            <a href="#" class="footer-link"> GitHub </a>
+          </li>
+        </ul>
+
+        <div
+          class="mt-6 rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-4 shadow-[0_0_30px_rgba(34,211,238,0.05)]"
+        >
+          <p class="text-xs uppercase tracking-[0.2em] text-zinc-500">Status</p>
+          <p class="mt-2 text-sm font-medium text-white">
+            Disponible para nuevos proyectos
+          </p>
+          <a
+            href="#contacto"
+            class="mt-4 inline-flex items-center text-sm font-medium text-cyan-300 transition hover:text-cyan-200"
+          >
+            Solicitar auditoría
+            <span class="ml-2 transition-transform group-hover:translate-x-1"
+              >→</span
+            >
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea inferior -->
+    <div
+      class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-zinc-500 md:flex-row md:items-center md:justify-between"
+    >
+      <p>© 2026 Tr3ceh. Offensive Security & Pentesting.</p>
+
+      <p
+        class="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-600"
+      >
+        Security · Research · Assessment
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-link {
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: white;
+  }
+
+  .footer-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.2rem;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(34, 211, 238, 0) 0%,
+      rgba(34, 211, 238, 0.9) 50%,
+      rgba(34, 211, 238, 0) 100%
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .footer-link:hover::after {
+    transform: scaleX(1);
+  }
+</style>

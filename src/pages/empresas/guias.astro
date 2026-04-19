@@ -1,0 +1,136 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const guias = await getCollection("guias");
+const sorted = guias.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const categoryLabel: Record<string, string> = {
+  seguridad: "Seguridad",
+  ia: "Inteligencia Artificial",
+  infraestructura: "Infraestructura",
+};
+
+const difficultyLabel: Record<string, string> = {
+  basico: "Básico",
+  intermedio: "Intermedio",
+  avanzado: "Avanzado",
+};
+
+const difficultyColor: Record<string, string> = {
+  basico: "text-green-400 border-green-400/20 bg-green-400/8",
+  intermedio: "text-yellow-400 border-yellow-400/20 bg-yellow-400/8",
+  avanzado: "text-red-400 border-red-400/20 bg-red-400/8",
+};
+---
+
+<MainLayout
+  title="Guías para empresas | Tr3ceh"
+  description="Guías técnicas gratuitas de seguridad, IA e infraestructura para pymes."
+>
+  <Navbar />
+
+  <main class="mx-auto max-w-6xl px-6 py-16">
+    <!-- Cabecera -->
+    <div class="mb-4">
+      <nav class="mb-6 font-mono text-xs text-zinc-500">
+        <a href="/empresas" class="transition hover:text-cyan-400">Empresas</a>
+        <span class="mx-2">→</span>
+        <span class="text-zinc-400">Guías</span>
+      </nav>
+
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
+        Recursos gratuitos
+      </p>
+      <h1 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        Guías técnicas
+      </h1>
+      <p class="mt-4 max-w-2xl text-zinc-400">
+        Configuraciones, procedimientos y mejores prácticas explicadas paso a
+        paso. Sin teoría vacía — solo lo que funciona.
+      </p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="mb-10 mt-8 flex flex-wrap gap-3" id="guide-filters">
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      <button class="filter-btn" data-filter="seguridad">Seguridad</button>
+      <button class="filter-btn" data-filter="ia">IA</button>
+      <button class="filter-btn" data-filter="infraestructura">Infraestructura</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3" id="guides-grid">
+      {
+        sorted.map((guia) => (
+          <a
+            href={`/empresas/guias/${guia.slug}`}
+            class="guide-card group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition duration-200 hover:-translate-y-1 hover:border-cyan-400/30 hover:bg-white/[0.05]"
+            data-category={guia.data.category}
+          >
+            <div class="mb-4 flex flex-wrap items-center gap-2">
+              <span class="rounded-full border border-cyan-400/15 bg-cyan-400/8 px-2.5 py-0.5 font-mono text-xs text-cyan-400">
+                {categoryLabel[guia.data.category]}
+              </span>
+              <span
+                class={`rounded-full border px-2.5 py-0.5 font-mono text-xs ${difficultyColor[guia.data.difficulty]}`}
+              >
+                {difficultyLabel[guia.data.difficulty]}
+              </span>
+            </div>
+
+            <h2 class="mb-2 font-semibold text-white transition group-hover:text-cyan-100">
+              {guia.data.title}
+            </h2>
+
+            <p class="mb-5 text-sm leading-6 text-zinc-400">
+              {guia.data.description}
+            </p>
+
+            <div class="flex items-center justify-between">
+              <time
+                datetime={guia.data.date.toISOString()}
+                class="font-mono text-xs text-zinc-500"
+              >
+                {guia.data.date.toLocaleDateString("es-ES", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              <span class="font-mono text-xs text-cyan-400 opacity-0 transition group-hover:opacity-100">
+                Leer →
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+
+  <Footer />
+
+  <script>
+    const buttons = document.querySelectorAll("#guide-filters .filter-btn");
+    const cards = document.querySelectorAll(".guide-card");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = (button as HTMLElement).dataset.filter;
+
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        cards.forEach((card) => {
+          const category = (card as HTMLElement).dataset.category;
+          (card as HTMLElement).style.display =
+            filter === "all" || category === filter ? "block" : "none";
+        });
+      });
+    });
+  </script>
+</MainLayout>

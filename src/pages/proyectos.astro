@@ -1,0 +1,116 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const proyectos = await getCollection("proyectos");
+const sorted = proyectos.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<MainLayout
+  title="Proyectos | Tr3ceh"
+  description="Laboratorios, herramientas y análisis técnicos de ciberseguridad desarrollados por Tr3ceh."
+>
+  <Navbar />
+
+  <main class="mx-auto max-w-6xl px-6 py-16">
+    <!-- Cabecera -->
+    <div class="mb-10">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
+        Portfolio técnico
+      </p>
+      <h1 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        Proyectos
+      </h1>
+      <p class="mt-4 max-w-2xl text-zinc-400">
+        Laboratorios, herramientas y análisis técnicos desarrollados durante mi
+        aprendizaje en ciberseguridad.
+      </p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="mb-10 flex flex-wrap gap-3" id="project-filters">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="lab">Lab</button>
+      <button class="filter-btn" data-filter="herramientas">Herramientas</button>
+      <button class="filter-btn" data-filter="writeups">Write ups</button>
+      <button class="filter-btn" data-filter="research">Research</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3" id="projects-grid">
+      {
+        sorted.map((project) => (
+          <a
+            href={`/proyectos/${project.slug}`}
+            class="project-card group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition duration-200 hover:-translate-y-1 hover:border-cyan-400/30 hover:bg-white/[0.05]"
+            data-category={project.data.category}
+          >
+            <span class="mb-4 inline-block rounded-full border border-cyan-400/15 bg-cyan-400/8 px-3 py-1 font-mono text-xs uppercase tracking-wider text-cyan-400">
+              {project.data.category}
+            </span>
+
+            <h2 class="mb-3 text-lg font-semibold text-white transition group-hover:text-cyan-100">
+              {project.data.title}
+            </h2>
+
+            <p class="mb-5 text-sm leading-6 text-zinc-400">
+              {project.data.description}
+            </p>
+
+            {project.data.tags && project.data.tags.length > 0 && (
+              <div class="mb-4 flex flex-wrap gap-2">
+                {project.data.tags.map((tag) => (
+                  <span class="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-zinc-400">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div class="flex items-center justify-between">
+              <time
+                datetime={project.data.date.toISOString()}
+                class="font-mono text-xs text-zinc-500"
+              >
+                {project.data.date.toLocaleDateString("es-ES", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              <span class="font-mono text-xs text-cyan-400 opacity-0 transition group-hover:opacity-100">
+                Ver →
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+
+  <Footer />
+
+  <script>
+    const buttons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".project-card");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = (button as HTMLElement).dataset.filter;
+
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        cards.forEach((card) => {
+          const category = (card as HTMLElement).dataset.category;
+          (card as HTMLElement).style.display =
+            filter === "all" || category === filter ? "block" : "none";
+        });
+      });
+    });
+  </script>
+</MainLayout>

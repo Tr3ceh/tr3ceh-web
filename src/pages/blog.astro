@@ -1,0 +1,88 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+const sorted = posts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<MainLayout
+  title="Blog | Tr3ceh"
+  description="Artículos sobre pentesting, ciberseguridad, IA y homelab escritos por Tr3ceh."
+>
+  <Navbar />
+
+  <main class="mx-auto max-w-6xl px-6 py-16">
+    <!-- Cabecera -->
+    <div class="mb-12">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
+        Contenido técnico
+      </p>
+      <h1 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        Blog
+      </h1>
+      <p class="mt-4 max-w-2xl text-zinc-400">
+        Pentesting, ciberseguridad, IA y homelab. Artículos técnicos, ideas y
+        notas del día a día.
+      </p>
+    </div>
+
+    {
+      sorted.length === 0 ? (
+        <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-12 text-center">
+          <p class="text-zinc-500">Próximamente el primer artículo.</p>
+        </div>
+      ) : (
+        <div class="grid gap-6 md:grid-cols-2">
+          {sorted.map((post) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition duration-200 hover:-translate-y-1 hover:border-cyan-400/30 hover:bg-white/[0.05]"
+            >
+              <!-- Tags -->
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="mb-4 flex flex-wrap gap-2">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="rounded-full border border-cyan-400/15 bg-cyan-400/8 px-2.5 py-0.5 font-mono text-xs text-cyan-400">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <h2 class="mb-2 text-lg font-semibold text-white transition group-hover:text-cyan-100">
+                {post.data.title}
+              </h2>
+
+              <p class="mb-5 text-sm leading-6 text-zinc-400">
+                {post.data.description}
+              </p>
+
+              <div class="flex items-center justify-between">
+                <time
+                  datetime={post.data.date.toISOString()}
+                  class="font-mono text-xs text-zinc-500"
+                >
+                  {post.data.date.toLocaleDateString("es-ES", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+                <span class="font-mono text-xs text-cyan-400 opacity-0 transition group-hover:opacity-100">
+                  Leer →
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </main>
+
+  <Footer />
+</MainLayout>

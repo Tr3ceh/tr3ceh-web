@@ -1,0 +1,305 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const guias = await getCollection("guias");
+const featured = guias
+  .filter((g) => g.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categoryLabel: Record<string, string> = {
+  seguridad: "Seguridad",
+  ia: "Inteligencia Artificial",
+  infraestructura: "Infraestructura",
+};
+
+const difficultyLabel: Record<string, string> = {
+  basico: "Básico",
+  intermedio: "Intermedio",
+  avanzado: "Avanzado",
+};
+---
+
+<MainLayout
+  title="Empresas | Tr3ceh"
+  description="Recursos, guías y herramientas para ayudar a tu empresa a ser más segura, adoptar la IA con criterio y mejorar su infraestructura tecnológica."
+>
+  <Navbar />
+
+  <main>
+    <!-- HERO -->
+    <section class="relative overflow-hidden">
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0">
+        <div
+          class="absolute inset-0 opacity-[0.07]"
+          style="background-image: linear-gradient(rgba(34,211,238,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.15) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(circle at center, black 35%, transparent 80%);"
+        >
+        </div>
+        <div
+          class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.08),transparent_50%)]"
+        >
+        </div>
+      </div>
+
+      <div class="mx-auto max-w-6xl px-6 py-24 md:py-32">
+        <div
+          class="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-cyan-300"
+        >
+          <span class="h-2 w-2 rounded-full bg-cyan-400"></span>
+          Para empresas · Recursos gratuitos
+        </div>
+
+        <h1
+          class="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl md:leading-tight"
+        >
+          Tu empresa, más segura y lista para la IA
+        </h1>
+
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
+          Guías técnicas, herramientas y configuraciones concretas para pymes
+          que quieren mejorar su seguridad, adoptar la IA sin riesgos y
+          optimizar su infraestructura tecnológica.
+        </p>
+
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+          <a
+            href="/empresas/guias"
+            class="inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 text-sm font-semibold text-zinc-950 transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-300"
+          >
+            Ver todas las guías
+          </a>
+          <a
+            href="/#contacto"
+            class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/5"
+          >
+            Hablar con nosotros
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRES PILARES -->
+    <section class="border-y border-white/10 bg-white/[0.02]">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <div class="mb-12 text-center">
+          <p
+            class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-cyan-400"
+          >
+            Áreas de trabajo
+          </p>
+          <h2 class="text-3xl font-semibold text-white">
+            ¿En qué podemos ayudarte?
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          <!-- Seguridad -->
+          <div
+            class="group rounded-3xl border border-white/10 bg-zinc-900/60 p-8 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-cyan-400/30"
+          >
+            <div
+              class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-cyan-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <p class="mb-1 font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
+              Seguridad
+            </p>
+            <h3 class="mb-3 text-xl font-semibold text-white">
+              Protege tu empresa
+            </h3>
+            <p class="text-sm leading-7 text-zinc-400">
+              Hardening de servidores, gestión de accesos, análisis de superficie
+              expuesta, configuración de firewall y políticas de seguridad
+              adaptadas a tu tamaño.
+            </p>
+            <a
+              href="/empresas/guias?cat=seguridad"
+              class="mt-5 inline-flex items-center gap-1 font-mono text-xs text-cyan-400 transition hover:text-cyan-300"
+            >
+              Ver guías de seguridad →
+            </a>
+          </div>
+
+          <!-- IA -->
+          <div
+            class="group rounded-3xl border border-white/10 bg-zinc-900/60 p-8 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-cyan-400/30"
+          >
+            <div
+              class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-cyan-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <p class="mb-1 font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
+              Inteligencia Artificial
+            </p>
+            <h3 class="mb-3 text-xl font-semibold text-white">
+              Adopta la IA con criterio
+            </h3>
+            <p class="text-sm leading-7 text-zinc-400">
+              Cómo integrar IA en tus procesos sin filtrar datos sensibles,
+              qué herramientas usar según tu caso, y cómo formar a tu equipo
+              para usarla de forma productiva y segura.
+            </p>
+            <a
+              href="/empresas/guias?cat=ia"
+              class="mt-5 inline-flex items-center gap-1 font-mono text-xs text-cyan-400 transition hover:text-cyan-300"
+            >
+              Ver guías de IA →
+            </a>
+          </div>
+
+          <!-- Infraestructura -->
+          <div
+            class="group rounded-3xl border border-white/10 bg-zinc-900/60 p-8 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-cyan-400/30"
+          >
+            <div
+              class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-cyan-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+              </svg>
+            </div>
+            <p class="mb-1 font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
+              Infraestructura
+            </p>
+            <h3 class="mb-3 text-xl font-semibold text-white">
+              Infraestructura sólida
+            </h3>
+            <p class="text-sm leading-7 text-zinc-400">
+              VPN para acceso remoto, backups automatizados, servidores
+              autoalojados, monitorización y todo lo que necesita tu empresa
+              para operar con fiabilidad.
+            </p>
+            <a
+              href="/empresas/guias?cat=infraestructura"
+              class="mt-5 inline-flex items-center gap-1 font-mono text-xs text-cyan-400 transition hover:text-cyan-300"
+            >
+              Ver guías de infraestructura →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUÍAS DESTACADAS -->
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <div class="mb-10 flex items-end justify-between">
+        <div>
+          <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
+            Recursos gratuitos
+          </p>
+          <h2 class="text-3xl font-semibold text-white">Guías destacadas</h2>
+        </div>
+        <a
+          href="/empresas/guias"
+          class="hidden font-mono text-sm text-zinc-500 transition hover:text-cyan-400 sm:block"
+        >
+          Ver todas →
+        </a>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          featured.map((guia) => (
+            <a
+              href={`/empresas/guias/${guia.slug}`}
+              class="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition duration-200 hover:-translate-y-1 hover:border-cyan-400/30 hover:bg-white/[0.05]"
+            >
+              <div class="mb-4 flex items-center gap-2">
+                <span class="rounded-full border border-cyan-400/15 bg-cyan-400/8 px-2.5 py-0.5 font-mono text-xs text-cyan-400">
+                  {categoryLabel[guia.data.category]}
+                </span>
+                <span class="rounded-full border border-white/10 px-2.5 py-0.5 font-mono text-xs text-zinc-500">
+                  {difficultyLabel[guia.data.difficulty]}
+                </span>
+              </div>
+
+              <h3 class="mb-2 font-semibold text-white transition group-hover:text-cyan-100">
+                {guia.data.title}
+              </h3>
+
+              <p class="mb-5 text-sm leading-6 text-zinc-400">
+                {guia.data.description}
+              </p>
+
+              <div class="flex items-center justify-between">
+                <div class="flex flex-wrap gap-1">
+                  {guia.data.tags?.slice(0, 2).map((tag) => (
+                    <span class="rounded-full border border-white/10 px-2 py-0.5 text-xs text-zinc-500">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <span class="font-mono text-xs text-cyan-400 opacity-0 transition group-hover:opacity-100">
+                  Leer →
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- CTA EMPRESAS -->
+    <section class="mx-auto max-w-6xl px-6 pb-24">
+      <div
+        class="rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 to-transparent p-8 md:p-12"
+      >
+        <div class="grid gap-8 md:grid-cols-2 md:items-center">
+          <div>
+            <p
+              class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-cyan-400"
+            >
+              ¿Necesitas ayuda personalizada?
+            </p>
+            <h2
+              class="text-3xl font-semibold tracking-tight text-white md:text-4xl"
+            >
+              No sabes por dónde empezar
+            </h2>
+            <p class="mt-4 text-lg leading-8 text-zinc-300">
+              Cada empresa tiene necesidades distintas. Cuéntame tu situación y
+              te digo qué priorizar, qué cambiar y qué no necesitas para tu
+              tamaño y sector.
+            </p>
+            <a
+              href="mailto:tr3ceh@proton.me"
+              class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-cyan-300"
+            >
+              Solicitar consulta gratuita
+            </a>
+          </div>
+
+          <div class="space-y-4">
+            {
+              [
+                { label: "Revisión de seguridad inicial", desc: "Qué tienes expuesto y qué priorizar" },
+                { label: "Plan de adopción de IA", desc: "Qué herramientas, qué riesgos, cómo formas a tu equipo" },
+                { label: "Auditoría de infraestructura", desc: "Servidores, accesos, backups y monitorización" },
+              ].map((item) => (
+                <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p class="font-medium text-white">{item.label}</p>
+                  <p class="mt-1 text-sm text-zinc-400">{item.desc}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</MainLayout>

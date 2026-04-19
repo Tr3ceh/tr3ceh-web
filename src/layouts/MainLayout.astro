@@ -4,7 +4,13 @@ import "../styles/global.css";
 const {
   title = "Tr3ceh | Pentesting & Ciberseguridad",
   description = "Servicios de pentesting y ciberseguridad por Tr3ceh.",
+  image = "/og-default.png",
+  canonical,
 } = Astro.props;
+
+const siteUrl = "https://tr3ceh.com";
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = new URL(image, siteUrl).href;
 ---
 
 <!doctype html>
@@ -13,6 +19,28 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Tr3ceh Blog" href="/rss.xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Tr3ceh" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <title>{title}</title>
   </head>
 

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx astro *)",
+      "Bash(cat C:\\\\\\\\Users\\\\\\\\ALBAN_~1\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\C--DEV-tr3ceh-web\\\\\\\\e95b3cdf-6805-4119-b211-5e7414ba6a0c\\\\\\\\tasks\\\\\\\\bh1o5dueq.output)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4321)",
+      "Bash(cat /c/DEV/tr3ceh-web/src/content/guias/*.md)"
+    ]
+  }
+}

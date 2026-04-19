@@ -1,0 +1,171 @@
+---
+import { getCollection, render } from "astro:content";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../../components/Navbar.astro";
+import Footer from "../../../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const guias = await getCollection("guias");
+
+  return guias.map((guia) => ({
+    params: { slug: guia.slug },
+    props: { guia },
+  }));
+}
+
+const { guia } = Astro.props;
+const { Content, headings } = await render(guia);
+
+const categoryLabel: Record<string, string> = {
+  seguridad: "Seguridad",
+  ia: "Inteligencia Artificial",
+  infraestructura: "Infraestructura",
+};
+
+const difficultyLabel: Record<string, string> = {
+  basico: "Básico",
+  intermedio: "Intermedio",
+  avanzado: "Avanzado",
+};
+
+const difficultyColor: Record<string, string> = {
+  basico: "text-green-400 border-green-400/20 bg-green-400/8",
+  intermedio: "text-yellow-400 border-yellow-400/20 bg-yellow-400/8",
+  avanzado: "text-red-400 border-red-400/20 bg-red-400/8",
+};
+---
+
+<MainLayout
+  title={`${guia.data.title} | Empresas — Tr3ceh`}
+  description={guia.data.description}
+>
+  <Navbar />
+
+  <main class="mx-auto max-w-6xl px-6 py-12">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 font-mono text-xs text-zinc-500">
+      <a href="/empresas" class="transition hover:text-cyan-400">Empresas</a>
+      <span class="mx-2">→</span>
+      <a href="/empresas/guias" class="transition hover:text-cyan-400">Guías</a>
+      <span class="mx-2">→</span>
+      <span class="text-zinc-400">{guia.data.title}</span>
+    </nav>
+
+    <div class="grid gap-12 lg:grid-cols-[1fr_260px]">
+      <!-- Artículo principal -->
+      <article>
+        <!-- Cabecera -->
+        <header class="mb-10">
+          <div class="mb-4 flex flex-wrap items-center gap-2">
+            <span class="rounded-full border border-cyan-400/15 bg-cyan-400/8 px-2.5 py-0.5 font-mono text-xs text-cyan-400">
+              {categoryLabel[guia.data.category]}
+            </span>
+            <span class={`rounded-full border px-2.5 py-0.5 font-mono text-xs ${difficultyColor[guia.data.difficulty]}`}>
+              {difficultyLabel[guia.data.difficulty]}
+            </span>
+          </div>
+
+          <h1 class="text-3xl font-semibold tracking-tight text-white md:text-4xl">
+            {guia.data.title}
+          </h1>
+
+          <p class="mt-4 text-lg leading-8 text-zinc-400">
+            {guia.data.description}
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6">
+            <div class="flex items-center gap-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/10 text-xs font-semibold tracking-widest text-cyan-300">
+                T
+              </div>
+              <div>
+                <p class="text-sm font-medium text-white">Tr3ceh</p>
+                <time
+                  datetime={guia.data.date.toISOString()}
+                  class="font-mono text-xs text-zinc-500"
+                >
+                  {guia.data.date.toLocaleDateString("es-ES", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </div>
+            </div>
+
+            {guia.data.tags && guia.data.tags.length > 0 && (
+              <div class="flex flex-wrap gap-2">
+                {guia.data.tags.map((tag) => (
+                  <span class="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-zinc-400">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </header>
+
+        <!-- Contenido -->
+        <div class="prose">
+          <Content />
+        </div>
+
+        <!-- Footer artículo -->
+        <div class="mt-16 border-t border-white/10 pt-8">
+          <a
+            href="/empresas/guias"
+            class="inline-flex items-center gap-2 font-mono text-sm text-zinc-500 transition hover:text-cyan-400"
+          >
+            ← Volver a guías
+          </a>
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24 space-y-4">
+          <!-- Tabla de contenidos -->
+          {headings.length > 0 && (
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+              <p class="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
+                Contenido
+              </p>
+              <nav class="space-y-2">
+                {headings.map((h) => (
+                  <a
+                    href={`#${h.slug}`}
+                    class={`block text-sm transition hover:text-cyan-400 ${
+                      h.depth === 2
+                        ? "text-zinc-400"
+                        : "pl-3 text-xs text-zinc-500"
+                    }`}
+                  >
+                    {h.text}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          )}
+
+          <!-- CTA contacto -->
+          <div class="rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-6">
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
+              ¿Necesitas ayuda?
+            </p>
+            <p class="mt-3 text-sm text-zinc-300">
+              Si necesitas implementar esto en tu empresa o tienes dudas, escríbeme.
+            </p>
+            <a
+              href="mailto:tr3ceh@proton.me"
+              class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-cyan-400/10 border border-cyan-400/20 px-4 py-2.5 text-sm font-medium text-cyan-300 transition hover:bg-cyan-400/20"
+            >
+              Contactar
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <Footer />
+</MainLayout>

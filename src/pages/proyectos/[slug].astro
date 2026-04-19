@@ -1,0 +1,110 @@
+---
+import { getCollection, render } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("proyectos");
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<MainLayout
+  title={`${project.data.title} | Proyectos — Tr3ceh`}
+  description={project.data.description}
+>
+  <Navbar />
+
+  <main class="mx-auto max-w-6xl px-6 py-12">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 font-mono text-xs text-zinc-500" aria-label="Navegación">
+      <a href="/proyectos" class="transition hover:text-cyan-400">Proyectos</a>
+      <span class="mx-2">→</span>
+      <span class="text-zinc-400">{project.data.title}</span>
+    </nav>
+
+    <!-- Cabecera del proyecto -->
+    <header class="mb-10 max-w-3xl">
+      <span
+        class="mb-4 inline-block rounded-full border border-cyan-400/15 bg-cyan-400/8 px-3 py-1 font-mono text-xs uppercase tracking-wider text-cyan-400"
+      >
+        {project.data.category}
+      </span>
+
+      <h1
+        class="text-3xl font-semibold tracking-tight text-white md:text-4xl"
+      >
+        {project.data.title}
+      </h1>
+
+      <p class="mt-4 text-lg leading-8 text-zinc-400">
+        {project.data.description}
+      </p>
+
+      <!-- Meta fila -->
+      <div
+        class="mt-6 flex flex-wrap items-center gap-6 border-t border-white/10 pt-6"
+      >
+        <div>
+          <p class="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500">
+            Fecha
+          </p>
+          <time
+            datetime={project.data.date.toISOString()}
+            class="mt-1 block text-sm font-medium text-white"
+          >
+            {
+              project.data.date.toLocaleDateString("es-ES", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+          </time>
+        </div>
+
+        {
+          project.data.tags && project.data.tags.length > 0 && (
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500">
+                Stack / Tags
+              </p>
+              <div class="mt-2 flex flex-wrap gap-2">
+                {project.data.tags.map((tag) => (
+                  <span class="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-zinc-300">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Contenido markdown -->
+    <div class="prose">
+      <Content />
+    </div>
+
+    <!-- Footer de la página -->
+    <div class="mt-16 border-t border-white/10 pt-8">
+      <a
+        href="/proyectos"
+        class="inline-flex items-center gap-2 font-mono text-sm text-zinc-500 transition hover:text-cyan-400"
+      >
+        ← Volver a proyectos
+      </a>
+    </div>
+  </main>
+
+  <Footer />
+</MainLayout>
